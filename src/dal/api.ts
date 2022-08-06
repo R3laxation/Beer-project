@@ -1,10 +1,21 @@
 import { instance } from './settings';
 
 export const api = {
-  fetchBeers(currentPage: number, itemsPerPage: number) {
-    return instance.get<BeersType[]>(
-      `beers?page=${currentPage}&per_page=${itemsPerPage}`,
-    );
+  fetchBeers(currentPage: number, itemsPerPage: number, searchValue: string) {
+    const params: {
+      page: number;
+      per_page: number;
+      beer_name?: string;
+    } = {
+      page: currentPage,
+      per_page: itemsPerPage,
+    };
+    if (searchValue) {
+      params.beer_name = searchValue;
+    }
+    return instance.get<BeersType[]>(`beers`, {
+      params,
+    });
   },
 };
 
@@ -17,18 +28,31 @@ export type BeersType = {
   image_url: string;
   abv: number;
   ibu: number;
-  target_fg: number;
-  target_og: number;
-  ebc: number;
-  srm: number;
   ph: number;
   attenuation_level: number;
   volume: {
     value: number;
     unit: string;
   };
-  boil_volume: {
-    value: 25;
-    unit: string;
-  };
+  ingredients: IngredientsType;
+  food_pairing: string[];
+  brewers_tips: string;
+  contributed_by: string;
+};
+
+type IngredientsType = {
+  malt: MaltType[];
+  hops: HopsType[];
+};
+
+type MaltType = {
+  name: string;
+  amount: { unit: string; value: number };
+};
+
+type HopsType = {
+  name: string;
+  amount: { unit: string; value: number };
+  add: string;
+  attribute: string;
 };

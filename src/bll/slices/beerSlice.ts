@@ -4,9 +4,9 @@ import { api, BeersType } from '../../dal/api';
 
 export const fetchBeers = createAsyncThunk(
   'beers/fetchBeers',
-  async (params: { currentPage: number; itemsPerPage: number }) => {
-    const { currentPage, itemsPerPage } = params;
-    const { data } = await api.fetchBeers(currentPage, itemsPerPage);
+  async (param: { currentPage: number; itemsPerPage: number; searchValue: string }) => {
+    const { currentPage, itemsPerPage, searchValue } = param;
+    const { data } = await api.fetchBeers(currentPage, itemsPerPage, searchValue);
     return data;
   },
 );
@@ -17,7 +17,7 @@ const beersSlice = createSlice({
     beers: [],
     beer: [],
     currentPage: 1,
-    itemsPerPage: 4,
+    itemsPerPage: 8,
   } as BeersStateType,
   reducers: {
     setCurrentPage(state, action: PayloadAction<{ currentPage: number }>) {

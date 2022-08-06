@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { BeersType } from '../../../dal/api';
 
+import s from './BeersBlock.module.scss';
+
 export const BeersBlock = ({
   name,
   tagline,
@@ -11,12 +13,10 @@ export const BeersBlock = ({
   abv,
   image_url: imageUrl,
 }: BeersType) => (
-  <div>
-    <Link to={`/beer/${id}`}>
-      <img src={imageUrl} alt="beer" />
-    </Link>
+  <Link to={`/beer/${id}`} className={s.beerBlock}>
+    <img src={imageUrl} alt="beer" />
     <h3>{name}</h3>
     <h4>{tagline}</h4>
-    <h5>Alcohol by volume, % {abv}</h5>
-  </div>
+    <h5>ABV: {abv}%</h5>
+  </Link>
 );
